@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Wellcome to DigiTorrent!");
+        System.out.println(" == Wellcome to DigiTorrent == ");
+
     }
 }
