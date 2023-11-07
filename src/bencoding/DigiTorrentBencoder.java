@@ -13,7 +13,6 @@ public class DigiTorrentBencoder {
     // Pretty much static atp
     private final static String TEMP_FILE_URI = "/home/deyan/Documents/Coding/DigiTorrent/src/temp/sinkhole.torrent";
 
-
     public static void main(String[] args) throws IOException, InvalidTorrentFileException, UnsupportedBencodeValue {
         String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
         Object bencodedData = decode(bencodedFile.getBytes());
@@ -88,15 +87,19 @@ public class DigiTorrentBencoder {
         index++; // Skip 'd'
         Map<String, Object> dict = new LinkedHashMap<>();
         while (chars[index] != 'e') {
+
+            // TODO: Wrong indexes?
+
             String key = decodeString(chars, index);
             index += key.length() + 2; // +2 to skip ':'
+
             Object value = decodeValue(chars, index);
             dict.put(key, value);
+
             index += value.toString().length();
         }
         return dict;
     }
-
 
     public static String bencodeFileToString(File file) throws IOException, InvalidTorrentFileException {
         FileInputStream stream = new FileInputStream(file);
