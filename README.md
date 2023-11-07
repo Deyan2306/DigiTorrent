@@ -1,2 +1,2 @@
 # DigiTorrent
-Cool little torrent client
+Torrent client in Java
