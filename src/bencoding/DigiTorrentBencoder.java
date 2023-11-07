@@ -13,45 +13,36 @@ public class DigiTorrentBencoder {
     // Pretty much static atp
     private final static String TEMP_FILE_URI = "/home/deyan/Documents/Coding/DigiTorrent/src/temp/sinkhole.torrent";
 
-    private static boolean integerFlag = false;
-    private static boolean byteFlag = false;
-    private static boolean listFlag = false;
-    private static boolean dictionaryFlag = false;
-
 
     public static void main(String[] args) throws IOException, InvalidTorrentFileException, UnsupportedBencodeValue {
         String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
-        Object bencodedData = decode(bencodedFile);
+        Object bencodedData = decode(bencodedFile.getBytes());
 
         System.out.println(bencodedData);
     }
 
     public static Object decode(byte[] data) {
-        try {
-            return decode(new String(data, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return decode(new String(data, StandardCharsets.UTF_8));
     }
 
     public static Object decode(String s) {
-        char[] chars = s.toCharArray();
+        char[] characterData = s.toCharArray();
         int index = 0;
-        return decodeValue(chars, index);
+        return decodeValue(characterData, index);
     }
 
     private static Object decodeValue(char[] chars, int index) {
-        char c = chars[index];
-        if (Character.isDigit(c)) {
+        char currentCharacter = chars[index];
+        if (Character.isDigit(currentCharacter)) {
             return decodeString(chars, index);
-        } else if (c == 'i') {
+        } else if (currentCharacter == 'i') {
             return decodeInteger(chars, index);
-        } else if (c == 'l') {
+        } else if (currentCharacter == 'l') {
             return decodeList(chars, index);
-        } else if (c == 'd') {
+        } else if (currentCharacter == 'd') {
             return decodeDictionary(chars, index);
         }
+
         return null;
     }
 
