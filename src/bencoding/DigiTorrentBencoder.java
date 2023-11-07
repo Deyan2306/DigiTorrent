@@ -12,7 +12,8 @@ public class DigiTorrentBencoder {
 
     // Pretty much static atp
     private final static String TEMP_FILE_URI = "/home/deyan/Documents/Coding/DigiTorrent/src/temp/sinkhole.torrent";
-
+    private static int index;
+    
     public static void main(String[] args) throws IOException, InvalidTorrentFileException, UnsupportedBencodeValue {
         String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
         Object bencodedData = decode(bencodedFile.getBytes());
@@ -26,26 +27,26 @@ public class DigiTorrentBencoder {
 
     public static Object decode(String s) {
         char[] characterData = s.toCharArray();
-        int index = 0;
-        return decodeValue(characterData, index);
+        index = 0;
+        return decodeValue(characterData);
     }
 
-    private static Object decodeValue(char[] chars, int index) {
+    private static Object decodeValue(char[] chars) {
         char currentCharacter = chars[index];
         if (Character.isDigit(currentCharacter)) {
-            return decodeString(chars, index);
+            return decodeString(chars);
         } else if (currentCharacter == 'i') {
-            return decodeInteger(chars, index);
+            return decodeInteger(chars);
         } else if (currentCharacter == 'l') {
-            return decodeList(chars, index);
+            return decodeList(chars);
         } else if (currentCharacter == 'd') {
-            return decodeDictionary(chars, index);
+            return decodeDictionary(chars);
         }
 
         return null;
     }
 
-    private static String decodeString(char[] chars, int index) {
+    private static String decodeString(char[] chars) {
         int length = 0;
         while (Character.isDigit(chars[index])) {
             length = length * 10 + (chars[index] - '0');
@@ -57,12 +58,12 @@ public class DigiTorrentBencoder {
         index++;
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            str.append(chars[index + i]);
+            str.append(chars[index++]);
         }
         return str.toString();
     }
 
-    private static Long decodeInteger(char[] chars, int index) {
+    private static Long decodeInteger(char[] chars) {
         index++; // Skip 'i'
         int endIndex = index;
         while (chars[endIndex] != 'e') {
@@ -72,31 +73,27 @@ public class DigiTorrentBencoder {
         return Long.parseLong(intStr);
     }
 
-    private static List<Object> decodeList(char[] chars, int index) {
+    private static List<Object> decodeList(char[] chars) {
         index++; // Skip 'l'
         List<Object> list = new ArrayList<>();
         while (chars[index] != 'e') {
-            Object value = decodeValue(chars, index);
+            Object value = decodeValue(chars);
             list.add(value);
             index += value.toString().length();
         }
         return list;
     }
 
-    private static Map<String, Object> decodeDictionary(char[] chars, int index) {
+    private static Map<String, Object> decodeDictionary(char[] chars) {
         index++; // Skip 'd'
         Map<String, Object> dict = new LinkedHashMap<>();
         while (chars[index] != 'e') {
 
-            // TODO: Wrong indexes?
+            String key = decodeString(chars);
+            //index += 2; // +2 to skip ':'
 
-            String key = decodeString(chars, index);
-            index += key.length() + 2; // +2 to skip ':'
-
-            Object value = decodeValue(chars, index);
+            Object value = decodeValue(chars);
             dict.put(key, value);
-
-            index += value.toString().length();
         }
         return dict;
     }
