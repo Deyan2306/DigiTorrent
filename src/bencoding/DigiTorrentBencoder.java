@@ -24,23 +24,27 @@ public class DigiTorrentBencoder {
         System.out.println(bencodedData);
     }
 
-    public static DigiTorrentBencodedDTO decode(byte[] data) {
-        Object decodedData = decode(new String(data, StandardCharsets.UTF_8));
-        DigiTorrentBencodedDTO dataHolder = new DigiTorrentBencodedDTO();
+    public static Object decode(byte[] data) {
+        List<Object> bencodedData = new ArrayList<>();
 
+        while (data.length > 0) {
+            bencodedData.add(decode(new String(data, StandardCharsets.UTF_8)));
+            data = Arrays.copyOfRange(data, index + 1, data.length);
+        }
 
-
-        return dataHolder;
+        return bencodedData;
     }
 
     public static Object decode(String s) {
         char[] characterData = s.toCharArray();
         index = 0;
+
         return decodeValue(characterData);
     }
 
     private static Object decodeValue(char[] chars) {
         char currentCharacter = chars[index];
+
         if (Character.isDigit(currentCharacter)) {
             return decodeString(chars);
         } else if (currentCharacter == 'i') {
@@ -79,7 +83,7 @@ public class DigiTorrentBencoder {
         }
 
         String intStr = new String(chars, index, endIndex - index);
-        index = endIndex; // move the pointer to the end index
+        index = endIndex; // move the pointer to the end index (+ 1 for the 'e')
 
         return Long.parseLong(intStr);
     }
