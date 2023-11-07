@@ -10,7 +10,7 @@ import java.util.*;
 
 public class DigiTorrentBencoder {
 
-    // Pretty much static atp
+    // TODO: Almost working, check with different files
     private final static String TEMP_FILE_URI = "/home/deyan/Documents/Coding/DigiTorrent/src/temp/sinkhole.torrent";
     private static int index;
     
