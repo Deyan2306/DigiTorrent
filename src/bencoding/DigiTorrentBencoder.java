@@ -1,5 +1,6 @@
 package bencoding;
 
+import bencoding.entity.DigiTorrentBencodedDTO;
 import exceptions.InvalidTorrentFileException;
 import exceptions.UnsupportedBencodeValue;
 
@@ -18,11 +19,18 @@ public class DigiTorrentBencoder {
         String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
         Object bencodedData = decode(bencodedFile.getBytes());
 
+        // TODO: Implement a data structure, which could hold all of the information in the bencoded data
+
         System.out.println(bencodedData);
     }
 
-    public static Object decode(byte[] data) {
-        return decode(new String(data, StandardCharsets.UTF_8));
+    public static DigiTorrentBencodedDTO decode(byte[] data) {
+        Object decodedData = decode(new String(data, StandardCharsets.UTF_8));
+        DigiTorrentBencodedDTO dataHolder = new DigiTorrentBencodedDTO();
+
+
+
+        return dataHolder;
     }
 
     public static Object decode(String s) {
@@ -69,7 +77,10 @@ public class DigiTorrentBencoder {
         while (chars[endIndex] != 'e') {
             endIndex++;
         }
+
         String intStr = new String(chars, index, endIndex - index);
+        index = endIndex; // move the pointer to the end index
+
         return Long.parseLong(intStr);
     }
 
