@@ -1,0 +1,18 @@
+{
+	"announce" -> "http://tracker.zamunda.net/announce.php?passkey=d9d144c684064698b11d4413dded4dff",
+	"created by" -> "uTorrent/3.6",
+	"creation date" -> 1699301237,
+	"encoding" -> "UTF_8",
+
+	"info" -> {
+		"files" -> [
+			{
+				"length" -> 628,
+				"path" -> [
+					"Sink.Hole.2013.WEBRip.x264.AAC.BGAUDIO-SiSO.nfo"
+					... Dies here
+				]
+			}
+		]
+	}
+}

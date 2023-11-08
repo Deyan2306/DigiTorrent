@@ -1,9 +1,6 @@
 package bencoding;
 
-import bencoding.entity.DigiTorrentBencodedDTO;
 import exceptions.InvalidTorrentFileException;
-import exceptions.UnsupportedBencodeValue;
-
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -11,11 +8,11 @@ import java.util.*;
 
 public class DigiTorrentBencoder {
 
-    // TODO: Almost working, check with different files
+    // TODO: Throws some awful exception...
     private final static String TEMP_FILE_URI = "/home/deyan/Documents/Coding/DigiTorrent/src/temp/sinkhole.torrent";
     private static int index;
     
-    public static void main(String[] args) throws IOException, InvalidTorrentFileException, UnsupportedBencodeValue {
+    public static void main(String[] args) throws IOException, InvalidTorrentFileException {
         String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
         Object bencodedData = decode(bencodedFile.getBytes());
 
@@ -96,8 +93,9 @@ public class DigiTorrentBencoder {
         while (chars[index] != 'e') {
             Object value = decodeValue(chars);
             list.add(value);
-            index += value.toString().length();
+            // index += value.toString().length(); TODO: Remove if it is working
         }
+        index++; //skip 'e'
         return list;
     }
 
