@@ -29,7 +29,7 @@ public class DigiTorrentBencoder {
 
         while (data.length > 0) {
             bencodedData.add(decode(new String(data, StandardCharsets.UTF_8)));
-            data = Arrays.copyOfRange(data, index + 1, data.length);
+            data = Arrays.copyOfRange(data, index, data.length);
         }
 
         return bencodedData;
@@ -72,6 +72,7 @@ public class DigiTorrentBencoder {
         for (int i = 0; i < length; i++) {
             str.append(chars[index++]);
         }
+
         return str.toString();
     }
 
@@ -83,7 +84,8 @@ public class DigiTorrentBencoder {
         }
 
         String intStr = new String(chars, index, endIndex - index);
-        index = endIndex; // move the pointer to the end index (+ 1 for the 'e')
+        index = endIndex; // move the pointer to the end index
+        index++; // Skip the 'e'
 
         return Long.parseLong(intStr);
     }
@@ -105,11 +107,11 @@ public class DigiTorrentBencoder {
         while (chars[index] != 'e') {
 
             String key = decodeString(chars);
-            //index += 2; // +2 to skip ':'
 
             Object value = decodeValue(chars);
             dict.put(key, value);
         }
+
         return dict;
     }
 
