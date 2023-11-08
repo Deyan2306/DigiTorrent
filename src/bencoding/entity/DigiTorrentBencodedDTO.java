@@ -21,8 +21,11 @@ public class DigiTorrentBencodedDTO {
     public boolean addInteger(Long integer) {
         return this.getIntegers().add(integer);
     }
-
-    //public boolean addByte() f life
+    public boolean addBytes(byte[] bytes) {
+        return this.getBytes().add(bytes);
+    }
+    public boolean addList(List<Object> list) { return this.getLists().add(list); }
+    public boolean addDictionary(Map<String, Object> dictionary) { return this.getDictionaries().add(dictionary); }
 
     public List<Long> getIntegers() {
         return integers;
