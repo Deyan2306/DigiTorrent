@@ -25,6 +25,8 @@ public class DigiTorrentBencoder {
         List<Object> bencodedData = new ArrayList<>();
 
         while (data.length > 0) {
+
+            // It's a single object, fix it
             bencodedData.add(decode(new String(data, StandardCharsets.UTF_8)));
             data = Arrays.copyOfRange(data, index, data.length);
         }
@@ -67,7 +69,7 @@ public class DigiTorrentBencoder {
         index++;
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            str.append(chars[index++]);
+            str.append(chars[index++]); // TODO: It throws index out of bounds here...
         }
 
         return str.toString();
@@ -93,7 +95,6 @@ public class DigiTorrentBencoder {
         while (chars[index] != 'e') {
             Object value = decodeValue(chars);
             list.add(value);
-            // index += value.toString().length(); TODO: Remove if it is working
         }
         index++; //skip 'e'
         return list;
@@ -109,7 +110,7 @@ public class DigiTorrentBencoder {
             Object value = decodeValue(chars);
             dict.put(key, value);
         }
-
+        index++; // Skip 'e'
         return dict;
     }
 

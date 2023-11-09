@@ -3,16 +3,29 @@
 	"created by" -> "uTorrent/3.6",
 	"creation date" -> 1699301237,
 	"encoding" -> "UTF_8",
-
 	"info" -> {
 		"files" -> [
 			{
 				"length" -> 628,
 				"path" -> [
 					"Sink.Hole.2013.WEBRip.x264.AAC.BGAUDIO-SiSO.nfo"
-					... Dies here
 				]
+			},
+			{
+			    "length" -> 7872229,
+			    "path" -> [
+			        "sample.mkv"
+			    ]
+			},
+			{
+			    "length" -> 916644904,
+			    "path" -> [
+			        "Sink.Hole.2013.WEBRip.x264.AAC.BGAUDIO-SiSO.mkv"
+			    ]
 			}
-		]
+		],
+		"name" -> "Sink.Hole.2013.WEBRip.x264.AAC.BGAUDIO-SiSO",
+		"piece length" -> 1048576,
+		"pieces" -> "(the pieces...)"
 	}
 }
