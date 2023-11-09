@@ -1,5 +1,7 @@
 package bencoding;
 
+import bencoding.bencode.BElement;
+import bencoding.bencode.BReader;
 import exceptions.InvalidTorrentFileException;
 
 import java.io.*;
@@ -15,12 +17,8 @@ public class DigiTorrentBencoder {
     private static Long pieceLength;
     
     public static void main(String[] args) throws IOException, InvalidTorrentFileException {
-        String bencodedFile = bencodeFileToString(new File(TEMP_FILE_URI));
-        Object bencodedData = decode(bencodedFile.getBytes());
-
-        // TODO: Implement a data structure, which could hold all of the information in the bencoded data
-
-        System.out.println(bencodedData);
+        final BElement[] elements3 = BReader.read("i523e5:abcdel4:spam4:eggsed3:cow3:moo4:spam4:eggse");
+        System.out.println(Arrays.toString(elements3));
     }
 
     public static Object decode(byte[] data) {
